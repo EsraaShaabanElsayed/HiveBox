@@ -1,5 +1,6 @@
-/pycache/
+__pycache__/
 /.venv/
 /.pytest_cache/
 /.coverage
 build/
+.vscode/
