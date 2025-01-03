@@ -8,6 +8,7 @@ app = Flask(__name__)
 VERSION_NUMBER='v1.2.2'
 sensors_ids=["5eba5fbad46fb8001b799786","5e60cf5557703e001bdae7f8","5eb99cacd46fb8001b2ce04c"]
 
+
 @app.route("/version")
 def version_fun():
     
@@ -55,7 +56,6 @@ def get_average_temperature():
                 measurement_time=last_measurement.get("createdAt")
                 value=last_measurement.get("value")
                 if  measurement_time and value:
-                    #lastMeasurement=data.strptime("%Y-%m-%dT:%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
                     measurement_time = datetime.strptime(measurement_time, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
                     if  measurement_time >=hour_ago:
                         total_boxes +=1
