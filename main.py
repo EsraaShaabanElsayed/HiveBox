@@ -5,7 +5,7 @@ from datetime import datetime, timedelta,timezone
 
 app = Flask(__name__)
 
-VERSION_NUMBER='v1.1.2'
+VERSION_NUMBER='v1.2.2'
 sensors_ids=["5eba5fbad46fb8001b799786","5e60cf5557703e001bdae7f8","5eb99cacd46fb8001b2ce04c"]
 
 @app.route("/version")
@@ -32,7 +32,6 @@ def fetch_sensebox_data(sensebox_id):
         print(f"Something went wrong: {err}")
         return None
  
-
 
 
 
@@ -67,6 +66,10 @@ def get_average_temperature():
     avg_tmp=total_temp/total_boxes
     return jsonify({"average_temperature": avg_tmp})
 
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
     
