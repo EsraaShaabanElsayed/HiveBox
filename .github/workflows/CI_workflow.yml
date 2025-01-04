@@ -69,10 +69,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name:  Start application
+      - name: Start application
         run: |
           python main.py &
            sleep 5
       - name: Call version API
         run: |
-             curl -X GET http://127.0.0.1:5000/version
+          curl -X GET http://127.0.0.1:5000/version
