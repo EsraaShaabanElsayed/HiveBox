@@ -5,7 +5,7 @@ from datetime import datetime, timedelta,timezone
 
 app = Flask(__name__)
 
-VERSION_NUMBER='v1.2.2'
+VERSION_NUMBER='v1.3.2'
 sensors_ids=["5eba5fbad46fb8001b799786","5e60cf5557703e001bdae7f8","5eb99cacd46fb8001b2ce04c"]
 
 
@@ -69,7 +69,7 @@ def get_average_temperature():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
 
 
     
