@@ -1,12 +1,13 @@
 """Module providing 2 end points to return the version of the app and the avg temperature."""
 
 from datetime import datetime, timedelta, timezone
+
 import requests
 from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-VERSION_NUMBER = "v1.3.5"
+VERSION_NUMBER = "v1.3.6"
 sensors_ids = [
     "5eba5fbad46fb8001b799786",
     "5e60cf5557703e001bdae7f8",
