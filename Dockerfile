@@ -10,3 +10,7 @@ RUN adduser --disabled-password appuser
 USER appuser
 
 CMD [ "python3","main.py" ]
+
+EXPOSE 5000
+# Healthcheck to ensure the container is healthy
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl --fail http://localhost:5000/ || exit 1
