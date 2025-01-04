@@ -3,17 +3,10 @@ This module contains tests for the Flask app's routes and endpoints.
 It includes a test for the temperature endpoint.
 """
 
-import os
-import sys
 import unittest
 from datetime import datetime, timezone
 from unittest.mock import patch
-
 from main import app
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-
 class TestTemperatureRoute(unittest.TestCase):
     """Test case for the /temperature endpoint"""
 
@@ -36,7 +29,7 @@ class TestTemperatureRoute(unittest.TestCase):
             json_response = response.get_json()
 
             # Use unittest assertions
-            self.assertEqual(json_response, {"average_temperature": 0.03})
+            self.assertEqual(json_response, {"average_temperature": 0.03,'status ': 'Too Cold'})
             self.assertEqual(response.status_code, 200)
 
 

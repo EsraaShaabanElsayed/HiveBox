@@ -7,7 +7,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-VERSION_NUMBER = "v1.3.7"
+VERSION_NUMBER = "v1.4.7"
 sensors_ids = [
     "5eba5fbad46fb8001b799786",
     "5e60cf5557703e001bdae7f8",
@@ -63,7 +63,14 @@ def get_average_temperature():
     if total_boxes == 0:
         return jsonify("error,there is no new data from 1 hour "), 404
     avg_tmp = total_temp / total_boxes
-    return jsonify({"average_temperature": avg_tmp})
+    if avg_tmp < 10:
+        status = "Too Cold"
+    elif 11 < avg_tmp < 36:
+        status = "Good"
+    else:
+        status = "Too Hot"
+
+    return jsonify({"average_temperature": avg_tmp, "status ": status})
 
 
 if __name__ == "__main__":
