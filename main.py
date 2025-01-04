@@ -7,7 +7,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-VERSION_NUMBER = "v1.3.6"
+VERSION_NUMBER = "v1.3.7"
 sensors_ids = [
     "5eba5fbad46fb8001b799786",
     "5e60cf5557703e001bdae7f8",
