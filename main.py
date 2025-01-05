@@ -1,27 +1,60 @@
 """Module providing 3 end points to return the version of the app and the avg temperature and
 prometheus metrics about the app ."""
 
+import json
+import os
 from datetime import datetime, timedelta, timezone
 
 import requests
+from dotenv import load_dotenv
 from flask import Flask, jsonify
 from prometheus_flask_exporter import PrometheusMetrics
 
+load_dotenv()
 app = Flask(__name__)
-metric = PrometheusMetrics(app)
+metrics = PrometheusMetrics(app)
 
-VERSION_NUMBER = "v2.4.7"
-sensors_ids = [
-    "5eba5fbad46fb8001b799786",
-    "5e60cf5557703e001bdae7f8",
-    "5eb99cacd46fb8001b2ce04c",
-]
+VERSION_NUMBER = "v2.4.8"
+
+
+# def load_sensor_ids():
+#     try:
+#         with open("sensor_ids.json", "r") as file:
+#             sensor_ids = json.load(file)
+#             if not isinstance(sensor_ids, list):
+#                 raise ValueError("sensor_ids.json should contain a list")
+#             return sensor_ids
+#     except (FileNotFoundError, json.JSONDecodeError, ValueError) as e:
+#         print(f"Error loading sensor IDs: {e}")
+#         return []
+
+
+def load_sensor_ids():
+    """This Function for retriving the sensor ids from env"""
+    sensor_ids_env = os.getenv("SENSOR_IDS")
+
+    if sensor_ids_env:
+        try:
+            # If SENSOR_IDS is set as an environment variable, parse it
+            sensor_ids = json.loads(sensor_ids_env)
+            if not isinstance(sensor_ids, list):
+                raise ValueError("SENSOR_IDS should be a list.")
+            return sensor_ids
+        except (json.JSONDecodeError, ValueError) as e:
+            print(f"Invalid SENSOR_IDS format: {e}")
+            return []
+
+    print("SENSOR_IDS environment variable not set.")
+    return []
+
+
+sensors_ids = load_sensor_ids()
 
 
 @app.route("/version")
 def version_fun():
     """Function to  return the app version"""
-    return jsonify(VERSION_NUMBER)
+    return jsonify({"version": VERSION_NUMBER})
 
 
 def fetch_sensebox_data(sensebox_id):
@@ -64,7 +97,7 @@ def get_average_temperature():
                         total_boxes += 1
                         total_temp += float(value)
     if total_boxes == 0:
-        return jsonify("error,there is no new data from 1 hour "), 404
+        return jsonify({"error": "there is no new data from 1 hour "}), 404
     avg_tmp = total_temp / total_boxes
     if avg_tmp < 10:
         status = "Too Cold"
@@ -76,10 +109,10 @@ def get_average_temperature():
     return jsonify({"average_temperature": avg_tmp, "status ": status})
 
 
-@app.route("/metrics")
-def metrics():
-    """Function to Returns default Prometheus metrics about the app."""
-    return metric
+# @app.route("/metrics")
+# def metrics():
+#     """Function to Returns default Prometheus metrics about the app."""
+#     return metric
 
 
 if __name__ == "__main__":
