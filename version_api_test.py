@@ -2,7 +2,9 @@
 This module contains tests for the Flask app's routes and endpoints.
 It includes a test for the version endpoint.
 """
+
 from main import VERSION_NUMBER, app
+
 
 def test_version_route():
     """Function for test the version endpoint"""

@@ -6,7 +6,10 @@ It includes a test for the temperature endpoint.
 import unittest
 from datetime import datetime, timezone
 from unittest.mock import patch
+
 from main import app
+
+
 class TestTemperatureRoute(unittest.TestCase):
     """Test case for the /temperature endpoint"""
 
@@ -29,7 +32,9 @@ class TestTemperatureRoute(unittest.TestCase):
             json_response = response.get_json()
 
             # Use unittest assertions
-            self.assertEqual(json_response, {"average_temperature": 0.03,'status ': 'Too Cold'})
+            self.assertEqual(
+                json_response, {"average_temperature": 0.03, "status ": "Too Cold"}
+            )
             self.assertEqual(response.status_code, 200)
 
 
