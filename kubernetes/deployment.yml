@@ -1,0 +1,19 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: hive-deploy
+# spec:
+#   replicas: 3
+#   selector:
+#     matchLabels:
+#       app: hive-app
+#   template:
+#     metadata:
+#       labels:
+#         app: hive-app
+#     spec:
+#       containers:
+#         - name: hive-app-container
+#           image: myregistry/myapp:latest
+#           ports:
+#             - containerPort: 8080

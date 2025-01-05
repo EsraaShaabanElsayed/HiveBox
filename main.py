@@ -1,13 +1,16 @@
-"""Module providing 2 end points to return the version of the app and the avg temperature."""
+"""Module providing 3 end points to return the version of the app and the avg temperature and
+prometheus metrics about the app ."""
 
 from datetime import datetime, timedelta, timezone
 
 import requests
 from flask import Flask, jsonify
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metric = PrometheusMetrics(app)
 
-VERSION_NUMBER = "v1.4.7"
+VERSION_NUMBER = "v2.4.7"
 sensors_ids = [
     "5eba5fbad46fb8001b799786",
     "5e60cf5557703e001bdae7f8",
@@ -71,6 +74,12 @@ def get_average_temperature():
         status = "Too Hot"
 
     return jsonify({"average_temperature": avg_tmp, "status ": status})
+
+
+@app.route("/metrics")
+def metrics():
+    """Function to Returns default Prometheus metrics about the app."""
+    return metric
 
 
 if __name__ == "__main__":
