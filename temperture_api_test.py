@@ -2,7 +2,7 @@
 This module contains tests for the Flask app's routes and endpoints.
 It includes a test for the temperature endpoint.
 """
-
+import os
 import unittest
 from datetime import datetime, timezone
 from unittest.mock import patch
@@ -13,6 +13,7 @@ from main import app
 class TestTemperatureRoute(unittest.TestCase):
     """Test case for the /temperature endpoint"""
 
+    @patch.dict(os.environ, {"SENSOR_IDS": '["5eba5fbad46fb8001b799786", "5e60cf5557703e001bdae7f8", "5eb99cacd46fb8001b2ce04c"]'})
     def test_temperature_route(self):
         """Test the temperature endpoint"""
         current_time = datetime.now(timezone.utc).isoformat()
