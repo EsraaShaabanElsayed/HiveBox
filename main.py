@@ -17,20 +17,8 @@ metrics = PrometheusMetrics(app)
 VERSION_NUMBER = "v2.4.8"
 
 
-# def load_sensor_ids():
-#     try:
-#         with open("sensor_ids.json", "r") as file:
-#             sensor_ids = json.load(file)
-#             if not isinstance(sensor_ids, list):
-#                 raise ValueError("sensor_ids.json should contain a list")
-#             return sensor_ids
-#     except (FileNotFoundError, json.JSONDecodeError, ValueError) as e:
-#         print(f"Error loading sensor IDs: {e}")
-#         return []
-
-
 def load_sensor_ids():
-    """This Function for retriving the sensor ids from env"""
+    """This Function for retrieving the sensor ids from env"""
     sensor_ids_env = os.getenv("SENSOR_IDS")
 
     if sensor_ids_env:
