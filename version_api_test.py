@@ -14,5 +14,3 @@ def test_version_route():
 
     if VERSION_NUMBER.encode() not in response.data:
         raise ValueError(f"Expected version number {VERSION_NUMBER} in response data")
-    # assert response.status_code == 200
-    # assert VERSION_NUMBER.encode() in response.data

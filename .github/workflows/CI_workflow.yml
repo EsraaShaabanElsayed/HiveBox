@@ -17,6 +17,17 @@ jobs:
         with:
           # super-linter needs the full git history to get the list of files that changed across commits
           fetch-depth: 0
+
+      - name: Create .env file
+        run: |
+          echo "SENSOR_IDS=${{env.SENSOR_IDS }}" >> .env
+          # Display the .env file for debugging (optional, don't use in production!)
+          cat .env
+
+      - name: Set environment for all steps
+        run: |
+          echo "DB_HOST=${{env.SENSOR_IDS}}" >> $GITHUB_ENV
+
       - name: Super-linter
         uses: super-linter/super-linter@v7.2.1
         env:
