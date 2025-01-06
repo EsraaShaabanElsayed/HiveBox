@@ -24,10 +24,6 @@ jobs:
           # Display the .env file for debugging (optional, don't use in production!)
           cat .env
 
-      - name: Set environment for all steps
-        run: |
-          echo "DB_HOST=${{env.SENSOR_IDS}}" >> $GITHUB_ENV
-
       - name: Super-linter
         uses: super-linter/super-linter@v7.2.1
         env:
@@ -53,6 +49,11 @@ jobs:
     steps:
       - name: checkout step
         uses: actions/checkout@v4
+      - name: Create .env file
+        run: |
+          echo "SENSOR_IDS=${{env.SENSOR_IDS }}" >> .env
+          # Display the .env file for debugging (optional, don't use in production!)
+          cat .env
 
       - name: Set up Python
         uses: actions/setup-python@v5
