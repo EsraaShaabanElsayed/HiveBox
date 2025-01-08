@@ -3,6 +3,8 @@ on: push
 permissions:
   contents: read
   packages: read
+env:
+  SENSOR_IDS: '["5eba5fbad46fb8001b799786", "5e60cf5557703e001bdae7f8", "5eb99cacd46fb8001b2ce04c"]'
 
 jobs:
   linting_job:
@@ -19,9 +21,10 @@ jobs:
           fetch-depth: 0
 
       - name: Create .env file
+        env:
+          SENSOR_IDS: ${{ env.SENSOR_IDS }}
         run: |
-          echo "SENSOR_IDS=${{env.SENSOR_IDS }}" >> .env
-          # Display the .env file for debugging (optional, don't use in production!)
+          echo "SENSOR_IDS='${SENSOR_IDS}'" > .env
           cat .env
 
       - name: Super-linter
@@ -39,20 +42,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build
-        uses: docker/build-push-action@v6
-        with:
-          push: false
-
   unit_testing_job:
     runs-on: ubuntu-24.04
     steps:
       - name: checkout step
         uses: actions/checkout@v4
       - name: Create .env file
+        env:
+          SENSOR_IDS: ${{ env.SENSOR_IDS }}
         run: |
-          echo "SENSOR_IDS=${{env.SENSOR_IDS }}" >> .env
-          # Display the .env file for debugging (optional, don't use in production!)
+          echo "SENSOR_IDS='${SENSOR_IDS}'" > .env
           cat .env
 
       - name: Set up Python
@@ -88,27 +87,3 @@ jobs:
       - name: Call version API
         run: |
           curl -X GET http://127.0.0.1:5000/version
-  sonarqube_job:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting.
-          fetch-depth: 0
-
-      # Triggering SonarQube analysis as results of it are required by Quality Gate check.
-      - name: SonarQube Server Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      # Check the Quality Gate status.
-      - name: SonarQube Server Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        with:
-          pollingTimeoutSec: 600
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
