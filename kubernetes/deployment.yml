@@ -14,6 +14,8 @@ spec:
         app: hive-app
     spec:
       automountServiceAccountToken: false
+      securityContext:
+       runAsUser: 10000
       containers:
         - name: hive-app
           image: ghcr.io/esraashaabanelsayed/hive-app@sha256:27bce5118d7a3564be5b8d99e504243daf4e51976685d18fd5c19c86282ca340
