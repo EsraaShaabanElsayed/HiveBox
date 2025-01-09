@@ -15,10 +15,10 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
-       runAsUser: 10000
+        runAsUser: 10000
       containers:
         - name: hive-app
-          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:27bce5118d7a3564be5b8d99e504243daf4e51976685d18fd5c19c86282ca340
+          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:f1d9f0781a0880faf9647bdf5f51c9b5bc1c6673c1cd3db656c693c62b2afe2a
           env:
             - name: SENSOR_IDS
               valueFrom:
@@ -62,3 +62,6 @@ spec:
               port: 5000
             initialDelaySeconds: 15
             periodSeconds: 20
+      volumes:
+        - name: ephemeral
+          emptyDir: {}
