@@ -97,11 +97,5 @@ def get_average_temperature():
     return jsonify({"average_temperature": avg_tmp, "status ": status})
 
 
-# @app.route("/metrics")
-# def metrics():
-#     """Function to Returns default Prometheus metrics about the app."""
-#     return metric
-
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

@@ -1,19 +1,62 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: hive-deploy
-# spec:
-#   replicas: 3
-#   selector:
-#     matchLabels:
-#       app: hive-app
-#   template:
-#     metadata:
-#       labels:
-#         app: hive-app
-#     spec:
-#       containers:
-#         - name: hive-app-container
-#           image: myregistry/myapp:latest
-#           ports:
-#             - containerPort: 8080
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-deploy
+  namespace: hive-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hive-app
+  template:
+    metadata:
+      labels:
+        app: hive-app
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: hive-app
+          image: myregistry/hive-app@sha256:1.0.0
+          env:
+            - name: SENSOR_IDS
+              valueFrom:
+                configMapKeyRef:
+                  name: hive-config
+                  key: SENSOR_IDS
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: 256Mi
+              ephemeral-storage: 2Gi
+              cpu: 250m
+            limits:
+              memory: 512Mi
+              cpu: 500m
+          volumeMounts:
+            - name: ephemeral
+              mountPath: /tmp
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+                - ALL
+                - NET_RAW
+          readinessProbe:
+            httpGet:
+              path: /version
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /version
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20

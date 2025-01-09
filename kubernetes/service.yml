@@ -1,12 +1,12 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: myapp-service
-# spec:
-#   selector:
-#     app: myapp
-#   ports:
-#     - protocol: TCP
-#       port: 80
-#       targetPort: 8080
-#   type: LoadBalancer
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: hive-namespace
+  name: hive-svc
+spec:
+  selector:
+    app: hive-app
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
