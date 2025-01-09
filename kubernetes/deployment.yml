@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: hive-app
-          image: myregistry/hive-app@sha256:1.0.0
+          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:27bce5118d7a3564be5b8d99e504243daf4e51976685d18fd5c19c86282ca340
           env:
             - name: SENSOR_IDS
               valueFrom:
@@ -39,7 +39,7 @@ spec:
               mountPath: /tmp
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1000
+            runAsUser: 10000
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             seccompProfile:
