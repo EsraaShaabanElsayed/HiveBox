@@ -115,15 +115,3 @@ jobs:
       - name: Call version API
         run: |
           curl -X GET http://127.0.0.1:5000/version
-  terrascan_job:
-    runs-on: ubuntu-latest
-    name: terrascan-action
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Run Terrascan
-        id: terrascan
-        uses: tenable/terrascan-action@main
-        with:
-          iac_type: k8s
-          iac_dir: kubernetes

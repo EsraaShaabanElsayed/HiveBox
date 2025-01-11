@@ -4,7 +4,7 @@ metadata:
   name: hive-deploy
   namespace: hive-namespace
   annotations:
-    apparmor.security.beta.kubernetes.io/namespace: runtime/default
+    apparmor.security.beta.kubernetes.io/hive-app: runtime/default
     apparmor.security.beta.kubernetes.io/hive-deploy: runtime/default
 spec:
   replicas: 3
