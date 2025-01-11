@@ -5,6 +5,7 @@ metadata:
   namespace: hive-namespace
   annotations:
     apparmor.security.beta.kubernetes.io/namespace: runtime/default
+    apparmor.security.beta.kubernetes.io/hive-deploy: runtime/default
 spec:
   replicas: 3
   selector:
