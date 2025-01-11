@@ -19,15 +19,12 @@ spec:
       containers:
         - name: hive-app
           image: ghcr.io/esraashaabanelsayed/hive-app@sha256:f1d9f0781a0880faf9647bdf5f51c9b5bc1c6673c1cd3db656c693c62b2afe2a
-          env:
-            - name: SENSOR_IDS
-              valueFrom:
-                configMapKeyRef:
-                  name: hive-config
-                  key: SENSOR_IDS
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: hive-config 
           resources:
             requests:
               memory: 256Mi
@@ -39,6 +36,9 @@ spec:
           volumeMounts:
             - name: ephemeral
               mountPath: /tmp
+            - name: hive-config
+              mountPath: /config
+              readOnly: true
           securityContext:
             runAsNonRoot: true
             runAsUser: 10000
@@ -65,3 +65,6 @@ spec:
       volumes:
         - name: ephemeral
           emptyDir: {}
+        - name: hive-config
+          configMap:
+            name: hive-config
