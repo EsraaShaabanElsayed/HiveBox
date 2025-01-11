@@ -3,9 +3,6 @@ kind: Deployment
 metadata:
   name: hive-deploy
   namespace: hive-namespace
-  annotations:
-    apparmor.security.beta.kubernetes.io/hive-app: runtime/default
-    apparmor.security.beta.kubernetes.io/hive-deploy: runtime/default
 spec:
   replicas: 3
   selector:
@@ -18,9 +15,9 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
-        appArmorProfile:
-          type: RuntimeDefault
         seccompProfile:
+          type: RuntimeDefault
+        appArmorProfile:
           type: RuntimeDefault
         runAsUser: 10000
       containers:
@@ -31,7 +28,7 @@ spec:
             - containerPort: 5000
           envFrom:
             - configMapRef:
-                name: hive-config
+                name: hive-config-map
           resources:
             requests:
               memory: 256Mi
@@ -40,10 +37,11 @@ spec:
             limits:
               memory: 512Mi
               cpu: 500m
+              ephemeral-storage: 2Gi
           volumeMounts:
             - name: ephemeral
               mountPath: /tmp
-            - name: hive-config
+            - name: hive-config-map
               mountPath: /config
               readOnly: true
           securityContext:
@@ -72,7 +70,7 @@ spec:
       volumes:
         - name: ephemeral
           emptyDir: {}
-        - name: hive-config
+        - name: hive-config-map
           configMap:
             name: hive-config
 
