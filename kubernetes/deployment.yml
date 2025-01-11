@@ -75,3 +75,15 @@ spec:
         - name: hive-config
           configMap:
             name: hive-config
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: hive-namespace
+spec:
+  podSelector: {} # Applies to all Pods in the namespace
+  policyTypes:
+    - Ingress # Denies all incoming traffic
+    - Egress # Denies all outgoing traffic
