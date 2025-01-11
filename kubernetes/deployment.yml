@@ -17,6 +17,10 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
+        appArmorProfile:
+          type: RuntimeDefault
+        seccompProfile:
+          type: RuntimeDefault
         runAsUser: 10000
       containers:
         - name: hive-app
