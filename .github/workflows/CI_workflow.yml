@@ -173,11 +173,13 @@ jobs:
         uses: azure/setup-kubectl@v4
         with:
           version: v1.27.3
+
       - name: set kubectl config
         uses: azure/k8s-set-context@v4
         with:
           method: kubeconfig
           kubeconfig: ${{secrets.KUBECONFIG}}
+
       - name: fetch kubectl data
         run: |
           kubectl version --short
