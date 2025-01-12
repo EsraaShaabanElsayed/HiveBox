@@ -96,7 +96,7 @@ def get_average_temperature():
                         total_boxes += 1
                         total_temp += float(value)
     if total_boxes == 0:
-        return jsonify({"error": "there is no new data from 1 hour "}),404
+        return jsonify({"error":"there is no new data from 1 hour"}), 404
     avg_tmp = total_temp / total_boxes
 
     return jsonify({"average_temperature": avg_tmp, "status ": temp_status(avg_tmp)})

@@ -22,7 +22,7 @@ spec:
         runAsUser: 10000
       containers:
         - name: hive-app
-          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:f1d9f0781a0880faf9647bdf5f51c9b5bc1c6673c1cd3db656c693c62b2afe2a
+          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:a0d5466c9082a22f319e7b6a98003a643cbcb674871223114ef7e38cf27b0264
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -32,7 +32,7 @@ spec:
           resources:
             requests:
               memory: 256Mi
-              ephemeral-storage: 2Gi
+              ephemeral-storage: 1Gi
               cpu: 250m
             limits:
               memory: 512Mi
