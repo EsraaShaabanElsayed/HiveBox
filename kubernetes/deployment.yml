@@ -17,18 +17,16 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-        appArmorProfile:
-          type: RuntimeDefault
         runAsUser: 10000
       containers:
         - name: hive-app
-          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:a0d5466c9082a22f319e7b6a98003a643cbcb674871223114ef7e38cf27b0264
+          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:b8909e7ee3fc69e770fc08c79969bc0652207694e1269c22def0d5259b9a8a0b
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
           envFrom:
             - configMapRef:
-                name: hive-config-map
+                name: hive-config
           resources:
             requests:
               memory: 256Mi
@@ -41,7 +39,7 @@ spec:
           volumeMounts:
             - name: ephemeral
               mountPath: /tmp
-            - name: hive-config-map
+            - name: hive-config
               mountPath: /config
               readOnly: true
           securityContext:
@@ -70,10 +68,9 @@ spec:
       volumes:
         - name: ephemeral
           emptyDir: {}
-        - name: hive-config-map
+        - name: hive-config
           configMap:
             name: hive-config
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
