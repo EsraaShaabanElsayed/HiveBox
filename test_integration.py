@@ -2,6 +2,7 @@
 """ This module contains  integration testing for the Flask app"""
 
 import pytest
+from flask.testing import FlaskClient
 
 from main import VERSION_NUMBER, app
 
@@ -14,7 +15,7 @@ def test_client():
         yield client
 
 
-def test_version_endpoint(test_client):
+def test_version_endpoint(test_client: FlaskClient):
     """Test the /version endpoint."""
     response = test_client.get("/version")
     if response.status_code != 200:
@@ -28,7 +29,7 @@ def test_version_endpoint(test_client):
         )
 
 
-def test_temperature_endpoint(test_client):
+def test_temperature_endpoint(test_client: FlaskClient):
     """
     Test the /temperature endpoint with real sensor data.
     Replace 'your_valid_sensor_id_here' with a real sensor ID to test.
@@ -57,18 +58,11 @@ def test_temperature_endpoint(test_client):
         )
 
 
-def test_temperature_endpoint_no_data(test_client):
+def test_temperature_endpoint_no_data(test_client: FlaskClient):
     """
     Test the /temperature endpoint when no data is available from sensors.
     Uses invalid sensor IDs to simulate the 'no data' scenario.
     """
-    # Use invalid sensor IDs to test the "no data" scenario
-    sensor_ids = ["invalid_sensor_id"]
-
-    # Assign invalid sensor IDs to the app for testing
-    with app.app_context():
-        app.sensors_ids = sensor_ids
-
     response = test_client.get("/temperature")  # Make a GET request to /temperature
     if response.status_code != 404:
         raise AssertionError(f"Expected status code 404, got {response.status_code}")
