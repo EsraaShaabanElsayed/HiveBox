@@ -55,14 +55,14 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{env.IMAGE_TAG}}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{env.IMAGE_TAG}}
           labels: ${{ steps.meta.outputs.labels }}
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
@@ -93,7 +93,7 @@ jobs:
           pip install -r requirements.txt
       - name: Run tests
         run: |
-          pytest
+          pytest  temperture_api_test.py version_api_test.py
 
   call_version_api_job:
     runs-on: ubuntu-24.04
@@ -128,3 +128,27 @@ jobs:
         with:
           iac_type: k8s
           iac_dir: kubernetes
+
+  integration_testing_job:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout step
+        uses: actions/checkout@v4
+      - name: Create .env file
+        env:
+          SENSOR_IDS: ${{ env.SENSOR_IDS }}
+        run: |
+          echo "SENSOR_IDS='${SENSOR_IDS}'" > .env
+          cat .env
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.10.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          pytest test_integration.py
