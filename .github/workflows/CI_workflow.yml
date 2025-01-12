@@ -1,10 +1,16 @@
 name: CI_workflow
-on: push
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
 permissions:
   contents: read
   packages: write
   id-token: write
   attestations: write
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: EsraaShaabanElsayed/hive-app
@@ -56,9 +62,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
           tags: |
+            type=ref,event=branch
+            type=ref,event=pr
             type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Build and push Docker image
         id: push
