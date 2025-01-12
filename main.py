@@ -1,5 +1,5 @@
 """Module providing 3 end points to return the version of the app and the avg temperature and
-prometheus metrics about the app ."""
+prometheus metrics about the app """
 
 import json
 import os
@@ -60,6 +60,17 @@ def fetch_sensebox_data(sensebox_id):
         return None
 
 
+def temp_status(avg_tmp):
+    """function to evaluate the temp status"""
+    if avg_tmp < 10:
+        status = "Too Cold"
+    elif 11 < avg_tmp < 36:
+        status = "Good"
+    else:
+        status = "Too Hot"
+    return status
+
+
 @app.route("/temperature", methods=["GET"])
 def get_average_temperature():
     """This function to return the avg temperature based on 3 boxes"""
@@ -85,16 +96,10 @@ def get_average_temperature():
                         total_boxes += 1
                         total_temp += float(value)
     if total_boxes == 0:
-        return jsonify({"error": "there is no new data from 1 hour "}), 404
+        return jsonify({"error": "there is no new data from 1 hour "}),404
     avg_tmp = total_temp / total_boxes
-    if avg_tmp < 10:
-        status = "Too Cold"
-    elif 11 < avg_tmp < 36:
-        status = "Good"
-    else:
-        status = "Too Hot"
 
-    return jsonify({"average_temperature": avg_tmp, "status ": status})
+    return jsonify({"average_temperature": avg_tmp, "status ": temp_status(avg_tmp)})
 
 
 if __name__ == "__main__":
