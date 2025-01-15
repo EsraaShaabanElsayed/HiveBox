@@ -3,7 +3,6 @@
 
 ![DevOps](https://img.shields.io/badge/DevOps-Kubernetes-blue)  
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)  
-![License](https://img.shields.io/badge/License-MIT-green)
 
 ## **📜 Overview**
 
@@ -114,9 +113,3 @@ HiveBox is a hands-on DevOps project designed to track environmental data from s
 ## **👨‍💻 About Me**
 
 I am Esraa Shaaban, a passionate DevOps Engineer with expertise in cloud-native tools, CI/CD pipelines, and infrastructure automation. This project showcases my technical skills and hands-on experience in building scalable systems.
-
----
-
-## **📄 License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
