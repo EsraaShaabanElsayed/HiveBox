@@ -20,7 +20,7 @@ spec:
         runAsUser: 10000
       containers:
         - name: hive-app
-          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:e773fe786d76bb0e17833f90009c2c5e637064e2e2563c9204f48123e3d83486
+          image: ghcr.io/esraashaabanelsayed/hive-app@sha256:505e25a12d3af51c31d6281f36ebcc080e805e44cf0f72dad95aa16dbdcc9dc8
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
