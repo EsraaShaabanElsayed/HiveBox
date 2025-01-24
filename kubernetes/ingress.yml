@@ -11,6 +11,10 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - www.hive.com
+      secretName: hive-tls-secret
   rules:
     - host: www.hive.com
       http:
@@ -22,7 +26,3 @@ spec:
                 name: hive-svc
                 port:
                   number: 5000
-  tls:
-    - hosts:
-        - www.hive.com
-      secretName: hive-tls-secret
